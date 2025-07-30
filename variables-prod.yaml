@@ -1,0 +1,10 @@
+MONGODB_HOST: mongodb-prod.devopsprocloud.in
+REDIS_HOST: redis-prod.devopsprocloud.in
+CATALOGUE_HOST: catalogue-prod.devopsprocloud.in 
+USER_HOST: user-prod.devopsprocloud.in 
+CART_HOST: cart-prod.devopsprocloud.in
+MYSQL_HOST: mysql-prod.devopsprocloud.in 
+SHIPPING_HOST: shipping-prod.devopsprocloud.in 
+RABBITMQ_HOST: rabbitmq-prod.devopsprocloud.in 
+PAYMENT_HOST: payment-prod.devopsprocloud.in 
+DISPATCH_HOST: dispatch-prod.devopsprocloud.in 

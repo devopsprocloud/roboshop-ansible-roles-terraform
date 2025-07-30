@@ -1,0 +1,19 @@
+- name: Configuring app-setup
+  ansible.builtin.import_role:
+    name: common 
+    tasks_from: app-setup.yaml
+
+- name: Configuring java-setup
+  ansible.builtin.import_role:
+    name: common 
+    tasks_from: java-setup.yaml
+
+- name: Configuring mysql-setup
+  ansible.builtin.import_role:
+    name: common 
+    tasks_from: mysql-setup.yaml
+
+- name: Configuring systemd-setup
+  ansible.builtin.import_role:
+    name: common 
+    tasks_from: systemd-setup.yaml 

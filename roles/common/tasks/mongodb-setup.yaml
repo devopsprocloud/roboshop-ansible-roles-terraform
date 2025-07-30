@@ -1,0 +1,49 @@
+- name: Copying MongoDB repo
+  ansible.builtin.copy:
+    src: mongo.repo
+    dest: /etc/yum.repos.d/mongo.repo
+
+- name: Installing mondodb shell 
+  ansible.builtin.command: dnf install -y mongodb-mongosh
+
+- name: Get the Catalogue count
+  ansible.builtin.command:  mongosh --host {{MONGODB_HOST}} --quiet --eval 'db =db.getSiblingDB("catalogue");db.products.estimatedDocumentCount()'
+  register: catalogue_count 
+  when:  component == "catalogue"
+
+- name: Get the User count
+  ansible.builtin.command:  mongosh --host {{MONGODB_HOST}} --quiet --eval 'db =db.getSiblingDB("users");db.users.estimatedDocumentCount()'
+  register: user_count
+  when: component == "user"
+
+
+# - name: Print the Catalogue Count output 
+#   ansible.builtin.debug:
+#     msg: "Output is {{catalogue_count}}"
+
+- name: Loading Catalogue data into Mongodb
+  ansible.builtin.shell: "mongosh --host {{MONGODB_HOST}} </app/schema/{{component}}.js"
+  when: component == "catalogue" and catalogue_count.stdout == "0" 
+  #when: output.stdout != "0"
+  ignore_errors: true
+
+# - name: "load catalogue data"
+#   ansible.builtin.shell: "mongosh --host {{MONGODB_HOST}} < /app/schema/{{component}}.js"
+#   when: component == "catalogue" and catalogue_count.stdout == "0"  # keep double quotes
+#   #ignore_errors: true
+
+
+# - name: Print the User Count output 
+#   ansible.builtin.debug:
+#     msg: "Output is {{user_count}}"
+
+- name: Loading User data into Mongodb
+  ansible.builtin.shell: "mongosh --host {{MONGODB_HOST}} </app/schema/{{component}}.js"
+  when: component == "user" and user_count.stdout == "0" 
+  # when: output.stdout != "0"
+  ignore_errors: true
+
+# - name: "load user data"
+#   ansible.builtin.shell: "mongosh --host {{MONGODB_HOST}} < /app/schema/{{component}}.js"
+#   when: component == "user" and user_count.stdout == "0"  # keep double quotes
+#   #ignore_errors: true

@@ -1,0 +1,14 @@
+- name: Installing Maven 
+  ansible.builtin.package: 
+    name: maven 
+    state: present 
+
+- name: Installing dependencies 
+  ansible.builtin.command: mvn clean package
+  args:
+    chdir: /app 
+
+- name: renaming the shipping-1.0.jar to shipping.jar 
+  ansible.builtin.command: "mv target/{{component}}-{{shipping_version}}.jar {{component}}.jar"
+  args:
+    chdir: /app 

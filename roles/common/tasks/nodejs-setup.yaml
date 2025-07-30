@@ -1,0 +1,12 @@
+- name: Disabling the Current NodeJS and enabling NodeJS:20
+  ansible.builtin.shell: dnf module disable nodejs -y ; dnf module enable nodejs:20 -y
+
+- name: Installing NodeJS:20
+  ansible.builtin.package:
+    name: nodejs 
+    state: present 
+
+- name: Installing dependencies
+  ansible.builtin.command: npm install 
+  args:
+    chdir: /app
